@@ -14,8 +14,8 @@ def main():
     #fire_continuous(net,['P excretion', 'Glucuronidation', 'Sulfation'])
     net.add_marking(Marking(input=([1])))
     fire_continuous(net, ['P absorption'], verbose=True)
-    #net.add_marking(Marking(input=([1])))
-    #fire_continuous(net, ['P absorption'], verbose=True)
+    net.add_marking(Marking(input=([1])))
+    fire_continuous(net, ['P absorption'], verbose=True)
 
 
 

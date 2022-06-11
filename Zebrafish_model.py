@@ -4,6 +4,7 @@ from snakes.nets import *
 from my_nets import *  # required to draw networks
 
 
+
 class ZebraMol():
     def __init__(self, kappas=None, t=0):
         if kappas is None:
@@ -123,14 +124,28 @@ def fire_continuous(net, transitions, verbose=False):
     
         # take the output place
         output_place = [curr_in for curr_in in curr_trans.__dict__['_output']][0]
-        modes = net.transition(transition).modes()
-        net.transition(transition).fire(modes[0])
-        new_mark = list(sorted([mark for mark in output_place]))[0]
+
+        # fire transition
+        net.transition(transition).fire(Substitution(x=init_mark))
+        # update value for initial marking
+        marks = list(sorted([mark for mark in output_place]))
+        print(marks)
+        new_mark = marks[0]
+        print(f"new mark: {new_mark}")
         init_mark_final += new_mark
-        # reset 
+        # reset start place marking for next transitions
         start_place.add([init_mark])
 
+        # fix output mark
+        output_place.remove(marks)
+        output_place.add([sum(marks)])
+
+        
+
+    print(list(sorted([mark for mark in start_place])))
+    # remove the last added transition from the above loop
     start_place.remove([init_mark])
+    # fix start place marking value
     start_place.add([init_mark - init_mark_final])
     if verbose:
         print(net.get_marking())
