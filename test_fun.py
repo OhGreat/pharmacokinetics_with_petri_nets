@@ -11,11 +11,11 @@ def main():
     net = zebra_model.net
     #net.add_marking(Marking(P=([1])))
     print("initial_marking:",net.get_marking())
-    #fire_continuous(net,['P excretion', 'Glucuronidation', 'Sulfation'])
     net.add_marking(Marking(input=([1])))
     fire_continuous(net, ['P absorption'], verbose=True)
-    net.add_marking(Marking(input=([1])))
-    fire_continuous(net, ['P absorption'], verbose=True)
+    fire_continuous(net,['P excretion', 'Glucuronidation', 'Sulfation'], verbose=True)
+    # net.add_marking(Marking(input=([1])))
+    # fire_continuous(net, ['P absorption'], verbose=True)
 
 
 
