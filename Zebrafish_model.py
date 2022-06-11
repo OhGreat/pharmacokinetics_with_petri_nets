@@ -1,5 +1,5 @@
 import snakes.plugins
-snakes.plugins.load('gv', 'snakes.nets', 'my_nets')
+snakes.plugins.load(['gv', 'ops'], 'snakes.nets', 'my_nets')
 from snakes.nets import *
 from my_nets import *  # required to draw networks
 
@@ -48,7 +48,7 @@ class ZebraMol():
     
         net.add_place(Place('G'))
         add_sequence(net=net,
-                    name="Glucuronidation ",
+                    name="Glucuronidation",
                     from_place='P',
                     to_place='G',
                     in_var="x",
@@ -94,3 +94,44 @@ def add_sequence(net, name, from_place, to_place, in_var, expr, t_exp=None):
     # create arcs
     net.add_input(from_place, name, Variable(in_var))
     net.add_output(to_place, name, Expression(expr))
+
+def fire_continuous(net, transitions, verbose=False):
+    
+    # used to update 
+    init_mark_final = 0
+
+    # take starting place     
+    start_place = [curr_in for curr_in in net.transition(transitions[0]).__dict__['_input']][0]
+    # all initial markings
+    init_mark = sum(list(sorted([mark for mark in start_place])))
+    print(init_mark)
+    # if no markings, return
+    # if len(init_mark) == 0: return
+    # we take the first marking 
+    # on the assumption that we only have one marking
+    # init_mark = init_markings
+
+    if verbose:
+        print("initial marking:",init_mark)
+
+    for transition in transitions:
+        curr_trans = net.transition(transition) 
+
+        if verbose:
+            print(f"transition '{transition}' elements:")
+            for elem in curr_trans.__dict__:
+                print("    ",elem, curr_trans.__dict__[elem])
+    
+        # take the output place
+        output_place = [curr_in for curr_in in curr_trans.__dict__['_output']][0]
+        modes = net.transition(transition).modes()
+        net.transition(transition).fire(modes[0])
+        new_mark = sum(list(sorted([mark for mark in output_place])))
+        init_mark_final += new_mark
+        # reset 
+        start_place.add([init_mark])
+
+    start_place.remove([init_mark])
+    start_place.add([init_mark - init_mark_final])
+    if verbose:
+        print(net.get_marking())
