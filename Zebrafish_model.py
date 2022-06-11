@@ -103,13 +103,12 @@ def fire_continuous(net, transitions, verbose=False):
     # take starting place     
     start_place = [curr_in for curr_in in net.transition(transitions[0]).__dict__['_input']][0]
     # all initial markings
-    init_mark = sum(list(sorted([mark for mark in start_place])))
-    print(init_mark)
+    init_markings = list(sorted([mark for mark in start_place]))
     # if no markings, return
-    # if len(init_mark) == 0: return
+    if len(init_markings) == 0: return
     # we take the first marking 
     # on the assumption that we only have one marking
-    # init_mark = init_markings
+    init_mark = init_markings[0]
 
     if verbose:
         print("initial marking:",init_mark)
@@ -126,7 +125,7 @@ def fire_continuous(net, transitions, verbose=False):
         output_place = [curr_in for curr_in in curr_trans.__dict__['_output']][0]
         modes = net.transition(transition).modes()
         net.transition(transition).fire(modes[0])
-        new_mark = sum(list(sorted([mark for mark in output_place])))
+        new_mark = list(sorted([mark for mark in output_place]))[0]
         init_mark_final += new_mark
         # reset 
         start_place.add([init_mark])
