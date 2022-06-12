@@ -78,6 +78,13 @@ class ZebraMol():
                     to_place='S excreted',
                     in_var="x",
                     expr=f"x * {self.kappas['k_S,e']} ")
+                    
+        # add_sequence(net=net,
+        #             name="S reabsorption",
+        #             from_place='S excreted',
+        #             to_place='input',
+        #             in_var="x",
+        #             expr=f"x")
         return net
 
 def add_sequence(net, name, from_place, to_place, in_var, expr, t_exp=None):
@@ -140,6 +147,6 @@ def fire_continuous(net: PetriNet, transitions, verbose=False):
     start_place.add([init_mark - init_mark_final])
     # Add all tokens of output
     output_place.tokens = MultiSet([sum(list(output_place.tokens))])
-    
+
     if verbose:
         print(net.get_marking())
