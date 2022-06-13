@@ -52,7 +52,7 @@ out = {
 def get_tokens(net, place):
     return  sum(list(net.place(place).tokens))
 
-def main():
+def main(verbose=False):
     zebra_model = ZebraMol()
 
     net = zebra_model.net
@@ -60,7 +60,7 @@ def main():
     print("initial_marking:",net.get_marking())
     net.add_marking(Marking(input=([10])))
 
-    for t in range(300): # 25
+    for t in range(100): # 25
         zebra_model.k_PS_f = zebra_model.k_PS_f_0*(1- (t/(zebra_model.t_50 + t)))
         zebra_model.kappas['k_PS,f'] = zebra_model.k_PS_f
         zebra_model.net.remove_transition('Sulfation')
@@ -77,13 +77,16 @@ def main():
         fire_continuous(net, ['S excretion'], verbose=False)
         # Paracetamol Marking
         for pl in PlaceType:
+            if verbose:
+                print(f'Adding tokens for: {pl.value}')
             tokens[pl].append(get_tokens(net, places[pl]))
 
 
 
     for pl in PlaceType:
-        # print(pl.value)
-        # print(tokens[pl])
+        if verbose:
+            print(pl.value)
+            print(tokens[pl])
         np.save(out[pl], tokens[pl])
 
     print(net.get_marking())
