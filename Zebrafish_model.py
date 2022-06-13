@@ -3,26 +3,36 @@ snakes.plugins.load(['gv', 'ops'], 'snakes.nets', 'my_nets')
 from snakes.nets import *
 from my_nets import *  # required to draw networks
 
+def draw_place (place, attr) :
+    attr['label'] = place.name.upper()
+    attr['color'] = '#FF0000'
+
+def draw_transition (trans, attr) :
+    if str(trans.guard) == 'True' :
+        attr['label'] = trans.name
+    else :
+        attr['label'] = '%s\n%s' % (trans.name, trans.guard)
 
 
 class ZebraMol():
     def __init__(self, kappas=None, t=0):
         if kappas is None:
             # model time dependancy
-            k_PS_f_0 = 0.422
-            t_50 = 1.42  # time in minutes at which the formation
+            self.k_PS_f_0 = 0.422
+            self.t_50 = 2  # time in minutes at which the formation
                          # rate for the sulfate metabolite is at 50%
-                         # of its value at time 0.
-            k_PS_f = k_PS_f_0*(1- (t/(t_50 - t)))
+                         # of its value at time 0.  (1.42)
+            self.k_PS_f = self.k_PS_f_0*(1- (t/(self.t_50 + t)))
 
             self.kappas = { 'k_a': 0.760,
                             'k_PG,f': 0.00327,
-                            'k_PS,f': k_PS_f,
+                            'k_PS,f': self.k_PS_f,
                             'k_P,e': 0.0185,
                             'k_G,e': 0.00743,
                             'k_S,e': 0.000664, }
         else: self.kappas = kappas
         self.net = self.create_model()
+    
 
     def save_img(self, path):
         self.net.draw(path, engine='dot')
@@ -78,7 +88,7 @@ class ZebraMol():
                     to_place='S excreted',
                     in_var="x",
                     expr=f"x * {self.kappas['k_S,e']} ")
-                    
+
         # add_sequence(net=net,
         #             name="S reabsorption",
         #             from_place='S excreted',
@@ -139,6 +149,7 @@ def fire_continuous(net: PetriNet, transitions, verbose=False):
         init_mark_final += (output_mark_final - output_mark_init)
         # reset start place marking for next transitions
         start_place.add([init_mark])
+        output_place.tokens = MultiSet([sum(list(output_place.tokens))])
 
         
     # remove the last added transition from the above loop
@@ -146,7 +157,11 @@ def fire_continuous(net: PetriNet, transitions, verbose=False):
     # fix start place marking value
     start_place.add([init_mark - init_mark_final])
     # Add all tokens of output
-    output_place.tokens = MultiSet([sum(list(output_place.tokens))])
 
     if verbose:
         print(net.get_marking())
+
+
+if __name__ == '__main__':
+    net = ZebraMol()
+    net.save_img('temp/model.png')
