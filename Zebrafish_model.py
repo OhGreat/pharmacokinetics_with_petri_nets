@@ -19,7 +19,7 @@ class ZebraMol():
         if kappas is None:
             # model time dependancy
             self.k_PS_f_0 = 0.422
-            self.t_50 = 2  # time in minutes at which the formation
+            self.t_50 = 1.42  # time in minutes at which the formation
                          # rate for the sulfate metabolite is at 50%
                          # of its value at time 0.  (1.42)
             self.k_PS_f = self.k_PS_f_0*(1- (t/(self.t_50 + t)))

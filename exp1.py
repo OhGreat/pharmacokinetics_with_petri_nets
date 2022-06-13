@@ -58,10 +58,14 @@ def main(verbose=False):
     net = zebra_model.net
     #net.add_marking(Marking(P=([1])))
     print("initial_marking:",net.get_marking())
-    net.add_marking(Marking(input=([10])))
+    # net.add_marking(Marking(input=([1])))
 
-    for t in range(100): # 25
-        zebra_model.k_PS_f = zebra_model.k_PS_f_0*(1- (t/(zebra_model.t_50 + t)))
+    for t in range(180): 
+
+        net.place('input').empty()
+        net.add_marking(Marking(input=([1])))
+
+        zebra_model.k_PS_f = zebra_model.k_PS_f_0*(1-(t/(zebra_model.t_50 + t)))
         zebra_model.kappas['k_PS,f'] = zebra_model.k_PS_f
         zebra_model.net.remove_transition('Sulfation')
         add_sequence(net=net,
@@ -87,7 +91,7 @@ def main(verbose=False):
         if verbose:
             print(pl.value)
             print(tokens[pl])
-        np.save(out[pl], tokens[pl])
+        np.save(f'results/exp1/{out[pl]}', tokens[pl])
 
     print(net.get_marking())
 
