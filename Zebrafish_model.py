@@ -41,7 +41,7 @@ class ZebraMol():
         net = PetriNet('Zebrafish Paracetamol net')
         
         net.add_place(Place('input')) # paracetamol in water
-        net.add_place(Place('P')) # paracetamol in zebrafish
+        net.add_place(Place('P')) # paracetamol in zebrafish (homogenate)
         add_sequence(net=net,
                     name="P absorption",
                     from_place='input',
@@ -114,7 +114,6 @@ def add_sequence(net, name, from_place, to_place, in_var, expr, t_exp=None):
     net.add_output(to_place, name, Expression(expr))
 
 def fire_continuous(net: PetriNet, transitions, verbose=False):
-    
     # used to update 
     init_mark_final = 0
 
@@ -131,12 +130,12 @@ def fire_continuous(net: PetriNet, transitions, verbose=False):
 
     if verbose:
         print("initial marking:",init_mark)
-
     for transition in transitions:
         curr_trans = net.transition(transition) 
 
         # take the output place
         output_place = [curr_in for curr_in in curr_trans.__dict__['_output']][0]
+
         # intial marking of output place
         output_mark_init = sum(list(output_place.tokens))
 
