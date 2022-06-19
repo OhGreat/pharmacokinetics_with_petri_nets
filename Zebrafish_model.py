@@ -1,8 +1,8 @@
+from utils.SNAKES_extensions import add_sequence
 import snakes.plugins
 snakes.plugins.load(['gv', 'ops'], 'snakes.nets', 'my_nets')
 from snakes.nets import *
 from my_nets import *  # required to draw networks
-from utils.SNAKES_extensions import *
 
 
 class ZebraMol():
@@ -13,8 +13,9 @@ class ZebraMol():
             self.t_50 = 1.42  # time in minutes at which the formation
                         # rate for the sulfate metabolite is at 50%
                         # of its value at time 0.  (1.42)
+
             # k_PS_f is time dependant
-            self.k_PS_f = lambda t: self.k_PS_f_0*(1- (t/(self.t_50 + t)))
+            self.k_PS_f = lambda t: self.k_PS_f_0 * (1 - (t/(self.t_50 + t)))
 
             self.kappas = { 'k_a': 0.760,
                             'k_PG,f': 0.00327,
@@ -22,11 +23,9 @@ class ZebraMol():
                             'k_P,e': 0.0185,
                             'k_G,e': 0.00743,
                             'k_S,e': 0.000664, }
+            print(self.kappas)
         else: self.kappas = kappas
         self.net = self.create_model()
-
-    def save_img(self, path):
-        self.net.draw(path, engine='dot')
 
     def create_model(self):
         net = PetriNet('Zebrafish Paracetamol net')
@@ -81,3 +80,6 @@ class ZebraMol():
                     expr=f"x * {self.kappas['k_S,e']} ")
 
         return net
+
+    def save_img(self, path="zebrafish_model.png"):
+        self.net.draw(path)

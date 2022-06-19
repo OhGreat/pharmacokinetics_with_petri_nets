@@ -1,6 +1,7 @@
 import snakes.plugins
-snakes.plugins.load(['ops'], 'snakes.nets', 'my_nets')
+snakes.plugins.load(['ops', 'gv'], 'snakes.nets', 'my_nets')
 from snakes.nets import *
+from my_nets import *
 
 def add_sequence(net, name, from_place, to_place, in_var, expr, t_exp=None):
     """ Params:
