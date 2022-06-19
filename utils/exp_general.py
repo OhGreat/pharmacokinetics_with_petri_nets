@@ -29,17 +29,10 @@ class Experimenter():
                 self.net.add_marking(Marking(input=([1])))
             if t == self.washout:
                 self.net.place('input').empty()
-
-            self.zebra_model.k_PS_f = self.zebra_model.k_PS_f_0*(1-(t/(self.zebra_model.t_50 + t)))
-            self.zebra_model.kappas['k_PS,f'] = self.zebra_model.k_PS_f
-            self.net.remove_transition('Sulfation')
-            add_sequence(net=self.net,
-                name="Sulfation",
-                from_place='P',
-                to_place='S',
-                in_var="x",
-                expr=f"x * {self.zebra_model.kappas['k_PS,f']} ")
-
+            # Sulfation is time dependent and needs to be fixed at every timestep
+            update_transition(  self.net, "Sulfation",
+                                self.zebra_model.k_PS_f, t)
+            # fire our transitions sequentially
             fire_continuous(self.net, ['P absorption'], verbose=False)
             self.tokens[PlaceType.P_HOMO].append(get_tokens(self.net, places[PlaceType.P_HOMO]))
             fire_continuous(self.net, ['P excretion', 'Glucuronidation', 'Sulfation'], verbose=False)

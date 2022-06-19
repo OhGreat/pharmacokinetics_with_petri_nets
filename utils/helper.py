@@ -1,7 +1,4 @@
 from enum import Enum
-from tkinter import Place
-
-from prometheus_client import PlatformCollector
 
 class PlaceType(Enum):
   P_HOMO = 'Paracetamol Homogenate'
