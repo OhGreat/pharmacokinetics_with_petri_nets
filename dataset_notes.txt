@@ -1,0 +1,35 @@
+DATASET
+ID:  subject (individual) ID. Used to group records together: each ID refers to a sample of generally 5 larvae that are measured together.
+
+TIME: recorded times of dosing events (blood sample collection)
+
+AMT: dose administered (1 if True, otherwise empty)
+
+EVID (EVENT ID):    → 0: observation
+                    →  1: dose
+                    → 2: special event (resetting compartments by giving CMT negative value) **
+                    → 3: reset (model reset to zero), not used
+
+DV: Dependent variable → observed concentration
+
+MDV: Missing DV (1 if missing, 0 otherwise)
+
+CMT: Compartment number:    →  1: dosing compartment
+                            →  2: central paracetamol in larva
+                    	    →  3: central paracetamol in glucuronide in larva
+                    	    →  4: central paracetamol sulfate in larva
+                            →  5: excreted paracetamol in medium
+                    	    →  6: excreted paracetamol in glucuronide in medium
+                            →  7: excreted paracetamol in sulfate in medium
+
+BQL (Below Quantification Limit): observed value falls outside of the calibration curve. Once a larger percentage of these are present in a dataset, it requires accounting for it (not the case here)
+
+XEXP, XEXP2: experiment number (not relevant in this case, sometimes we check for the influence of that)
+
+BLOOD: used in the $ERROR section of the model code, where based on IF statements on the sample matrix (homogenate, blood, medium) the amount or the concentration (amount/central volume of distribution) is predicted.
+
+AGE: is constant (all are 5 days post fertilization), so it’s not used by this model 
+
+** EVID=2 and CMT=-5 empties compartment 5, and a following record with EVID=2 and CMT=5 and DV=0 sets it to zero. 
+ 
+ 
