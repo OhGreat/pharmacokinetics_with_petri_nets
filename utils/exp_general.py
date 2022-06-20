@@ -1,5 +1,6 @@
 from Zebrafish_model import *
 from utils.helper import *
+from utils.SNAKES_extensions import update_transition, fire_continuous
 import numpy as np
 
 class Experimenter():
