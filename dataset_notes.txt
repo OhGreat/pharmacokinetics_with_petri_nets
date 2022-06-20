@@ -6,7 +6,7 @@ TIME: recorded times of dosing events (blood sample collection)
 AMT: dose administered (1 if True, otherwise empty)
 
 EVID (EVENT ID):    → 0: observation
-                    →  1: dose
+                    → 1: dose
                     → 2: special event (resetting compartments by giving CMT negative value) **
                     → 3: reset (model reset to zero), not used
 
