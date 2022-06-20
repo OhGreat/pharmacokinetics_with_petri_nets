@@ -1,11 +1,11 @@
-from utils.SNAKES_extensions import add_sequence
 import snakes.plugins
 snakes.plugins.load(['gv', 'ops'], 'snakes.nets', 'my_nets')
 from snakes.nets import *
 from my_nets import *  # required to draw networks
+from utils.SNAKES_extensions import *
 
 
-class ZebraMol():
+class ZebraMolNoHead():
     def __init__(self, kappas=None, t=0):
         if kappas is None:
             # model time dependancy
@@ -13,19 +13,21 @@ class ZebraMol():
             self.t_50 = 1.42  # time in minutes at which the formation
                         # rate for the sulfate metabolite is at 50%
                         # of its value at time 0.  (1.42)
-
             # k_PS_f is time dependant
-            self.k_PS_f = lambda t: self.k_PS_f_0 * (1 - (t/(self.t_50 + t)))
+            self.k_PS_f = lambda t: self.k_PS_f_0*(1- (t/(self.t_50 + t)))
 
             self.kappas = { 'k_a': 0.760,
                             'k_PG,f': 0.00327,
                             'k_PS,f': self.k_PS_f(t),
                             'k_P,e': 0.0185,
                             'k_G,e': 0.00743,
-                            'k_S,e': 0.00664, }
-            print(self.kappas)
-        else: self.kappas = kappas
+                            'k_S,e': 0.000664, }
+        else: 
+            self.kappas = kappas
         self.net = self.create_model()
+
+    def save_img(self, path="zebrafish_model.png"):
+        self.net.draw(path)
 
     def create_model(self):
         net = PetriNet('Zebrafish Paracetamol net')
@@ -37,7 +39,7 @@ class ZebraMol():
                     from_place='input',
                     to_place='P',
                     in_var="x",
-                    expr=f"x * {self.kappas['k_a']} ")
+                    expr=f"x * 1.0")
 
         net.add_place(Place('P excreted'))
         add_sequence(net=net,
@@ -81,5 +83,6 @@ class ZebraMol():
 
         return net
 
-    def save_img(self, path="zebrafish_model.png"):
-        self.net.draw(path)
+if __name__ == '__main__':
+    zebra_model = ZebraMolNoHead()
+    zebra_model.save_img('temp/skip_head.png')

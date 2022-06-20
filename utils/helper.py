@@ -7,6 +7,8 @@ class PlaceType(Enum):
   P_EXC = 'Paracetamol Excreted'
   G_EXC = 'Paracetamol-glucuronide Excreted'
   S_EXC = 'Paracetamol-sulfate Excreted'
+  CYP_HOMO = 'Paracetamol-oxidation'
+  CYP_EXC = 'Paracetamol-oxidation excreted'
 
 """
 Mapping from types to places
@@ -15,9 +17,11 @@ places = {
     PlaceType.P_HOMO: 'P',
     PlaceType.S_HOMO: 'S',
     PlaceType.G_HOMO: 'G',
+    PlaceType.CYP_HOMO: 'CYP',
     PlaceType.P_EXC: 'P excreted',
     PlaceType.S_EXC: 'S excreted',
     PlaceType.G_EXC: 'G excreted',
+    PlaceType.CYP_EXC: 'CYP excreted',
 }
 """
 Mapping from types to tokens
@@ -29,6 +33,8 @@ tokens = {
     PlaceType.P_EXC: [],
     PlaceType.S_EXC: [],
     PlaceType.G_EXC: [],
+    PlaceType.CYP_HOMO: [],
+    PlaceType.CYP_EXC: [],
 }
 """
 Mapping from type to output file
@@ -40,6 +46,8 @@ out = {
     PlaceType.P_EXC: 'pe_val.npy',
     PlaceType.S_EXC: 'se_val.npy',
     PlaceType.G_EXC: 'ge_val.npy',
+    PlaceType.CYP_HOMO: 'cyp_val.npy',
+    PlaceType.CYP_EXC: 'cype_val.npy',
 }
 
 metabolic = [PlaceType.G_HOMO, PlaceType.P_EXC, PlaceType.S_HOMO]

@@ -2,6 +2,7 @@ import sys
 from Zebrafish_model import *
 from utils.exp_general import *
 from utils.helper import *
+from Zebrafish_model_no_head import ZebraMolNoHead
 
 experiments = [
   {
@@ -28,3 +29,13 @@ if __name__ == '__main__':
             )
     exp.run_exp()
     del exp, zebra_model
+
+  zebra_model = ZebraMolNoHead()
+  exp = Experimenter(
+            total_timesteps=300,
+            washout=60,
+            zebra_model=zebra_model,
+            exp_name='exp_no_head',
+            tokens=get_clean_tokens()
+        )
+  exp.run_exp()
