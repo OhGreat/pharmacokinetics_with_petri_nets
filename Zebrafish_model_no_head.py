@@ -32,14 +32,14 @@ class ZebraMolNoHead():
     def create_model(self):
         net = PetriNet('Zebrafish Paracetamol net')
         
-        net.add_place(Place('input')) # paracetamol in water
+        # net.add_place(Place('input')) # paracetamol in water
         net.add_place(Place('P')) # paracetamol in zebrafish (homogenate)
-        add_sequence(net=net,
-                    name="P absorption",
-                    from_place='input',
-                    to_place='P',
-                    in_var="x",
-                    expr=f"x * 1.0")
+        # add_sequence(net=net,
+        #             name="P absorption",
+        #             from_place='input',
+        #             to_place='P',
+        #             in_var="x",
+        #             expr=f"x * 1.0")
 
         net.add_place(Place('P excreted'))
         add_sequence(net=net,
@@ -85,4 +85,4 @@ class ZebraMolNoHead():
 
 if __name__ == '__main__':
     zebra_model = ZebraMolNoHead()
-    zebra_model.save_img('temp/skip_head.png')
+    zebra_model.save_img('temp/no_head.png')
