@@ -1,25 +1,30 @@
 # Bio-modeling: Usage of PetriNets for Pharmacokinetics modeling
 
 ## Intoduction
-Following the original paper[[1]](#1), implementation of the proposed model using PetriNets has been achieved, in an attempt to reproduce the results (initially using NONMEM).
+This project aims to model pharmacokinetics of paracetamol in Zebrafish larvae with Petri Nets.
+
+Following the original publication[[1]](#1), translation of the proposed NONMEM model using PetriNets has been achieved, in an attempt to reproduce the results present in the paper.
 
 ___
 
-## Instructions
+## Experiments
 
-There are two main types of experimental procedures. In order to run the respective experiments:
+There are two main types of experimental procedures. In order to run the respective experiments you can use the following commands from the main directory of your  cloned repository:
 ```
+cd experiments
 python run_experiments.py
 ```
 The above also runs the adapted model with no head (input place). 
 
 
-In order to run extended model for adult humans and represent enzymatic maturity, the following should be used. 
+In order to run the extended model for adult humans and represent the enzymatic maturation process, the following instructions should be used: 
 ```
+cd experiments
 python run_adult.py
 ```
 
-Visualization can be achieved using the provided notebook, which will create all of the graphs using the retrived experimental results. The notebook is 'visualization.ipynb', 'model_no_head_res.ipynb', 'adult_model_visualization.iypnb'
+## Experiment visualization and statistics
+Visualization can be achieved using the provided notebooks, which will create all of the graphs using the retrived experimental results. The notebooks can be found under the `visualizations` directory.
 
 ___
 ## References

@@ -1,8 +1,10 @@
-from Zebrafish_model import *
+import sys
+sys.path.append('../')
+from models.Zebrafish_model import *
 from utils.helper import *
 from utils.SNAKES_extensions import update_transition, fire_continuous
 import numpy as np
-from model_adult import AdultModel
+from models.model_adult import AdultModel
 
 
 class ExperimenterAdult():
@@ -54,7 +56,7 @@ class ExperimenterAdult():
             print(pl.value)
             print(self.tokens[pl])
         
-          np.save(f'results/{self.exp_name}/{out[pl]}', self.tokens[pl])
+          np.save(f'../results/{self.exp_name}/{out[pl]}', self.tokens[pl])
         print(self.net.get_marking())
 
 if __name__ == '__main__':

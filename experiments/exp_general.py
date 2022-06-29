@@ -1,4 +1,5 @@
-from Zebrafish_model import *
+from models.Zebrafish_model import *
+from exp_general import *
 from utils.helper import *
 from utils.SNAKES_extensions import update_transition, fire_continuous
 import numpy as np
@@ -53,5 +54,5 @@ class Experimenter():
                 print(pl.value)
                 print(self.tokens[pl])
         
-            np.save(f'results/{self.exp_name}/{out[pl]}', self.tokens[pl])
+            np.save(f'../results/{self.exp_name}/{out[pl]}', self.tokens[pl])
         print(self.net.get_marking())

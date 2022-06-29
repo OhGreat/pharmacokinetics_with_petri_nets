@@ -1,8 +1,9 @@
 import sys
-from Zebrafish_model import *
-from utils.exp_general import *
+sys.path.append('../')
+from models.Zebrafish_model import *
+from models.Zebrafish_model_no_head import ZebraMolNoHead
+from exp_general import *
 from utils.helper import *
-from Zebrafish_model_no_head import ZebraMolNoHead
 
 experiments = [
   {
