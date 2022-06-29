@@ -23,18 +23,22 @@ class Experimenter():
         print("Object deleted")
     
     def run_exp(self, verbose=False):
-        print(self.washout)
         for t in range(self.total_timesteps):
-            if t < self.washout:
+            if self.washout is not None and t < self.washout:
                 self.net.place('input').empty()
                 self.net.add_marking(Marking(input=([1])))
-            if t == self.washout:
+            if self.washout is not None and t == self.washout:
                 self.net.place('input').empty()
             # Sulfation is time dependent and needs to be fixed at every timestep
             update_transition(  self.net, "Sulfation",
                                 self.zebra_model.k_PS_f, t)
+            # washout + no head model rules
+            if self.washout is not None:
+                fire_continuous(self.net, ['P absorption'], verbose=False)
+            # no head model
+            elif self.washout is None and t == 0:
+                self.net.add_marking(Marking(P=([1])))
             # fire our transitions sequentially
-            fire_continuous(self.net, ['P absorption'], verbose=False)
             self.tokens[PlaceType.P_HOMO].append(get_tokens(self.net, places[PlaceType.P_HOMO]))
             fire_continuous(self.net, ['P excretion', 'Glucuronidation', 'Sulfation'], verbose=False)
             for m in metabolic:

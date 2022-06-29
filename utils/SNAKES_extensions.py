@@ -5,7 +5,8 @@ from my_nets import *
 
 def add_sequence(net, name, from_place, to_place, in_var, expr, t_exp=None):
     """ Params:
-        - name: anme of transition
+        - net: SNAKES Petri Net
+        - name: name of transition to add
         - from_place: start point of transition
         - to_place: end point of transition
         - in_var: input variable for transition, e.g. 'x'

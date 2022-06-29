@@ -18,6 +18,7 @@ experiments = [
 ]
 
 if __name__ == '__main__':
+  # paper reproduction experiments
   for experiment in experiments:
     zebra_model = ZebraMol()
     exp = Experimenter(
@@ -30,10 +31,11 @@ if __name__ == '__main__':
     exp.run_exp()
     del exp, zebra_model
 
+  # no head experiment
   zebra_model = ZebraMolNoHead()
   exp = Experimenter(
             total_timesteps=300,
-            washout=60,
+            washout=None,
             zebra_model=zebra_model,
             exp_name='exp_no_head',
             tokens=get_clean_tokens()

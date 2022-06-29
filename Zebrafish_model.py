@@ -11,8 +11,8 @@ class ZebraMol():
             # model time dependancy
             self.k_PS_f_0 = 0.422
             self.t_50 = 1.42  # time in minutes at which the formation
-                        # rate for the sulfate metabolite is at 50%
-                        # of its value at time 0.  (1.42)
+                              # rate for the sulfate metabolite is at 50%
+                              # of its value at time 0.  (1.42)
 
             # k_PS_f is time dependant
             self.k_PS_f = lambda t: self.k_PS_f_0 * (1 - (t/(self.t_50 + t)))
@@ -22,7 +22,7 @@ class ZebraMol():
                             'k_PS,f': self.k_PS_f(t),
                             'k_P,e': 0.0185,
                             'k_G,e': 0.00743,
-                            'k_S,e': 0.00664, }
+                            'k_S,e': 0.000664, }
             print(self.kappas)
         else: self.kappas = kappas
         self.net = self.create_model()

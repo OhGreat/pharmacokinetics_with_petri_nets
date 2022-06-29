@@ -82,7 +82,3 @@ class ZebraMolNoHead():
                     expr=f"x * {self.kappas['k_S,e']} ")
 
         return net
-
-if __name__ == '__main__':
-    zebra_model = ZebraMolNoHead()
-    zebra_model.save_img('temp/no_head.png')
